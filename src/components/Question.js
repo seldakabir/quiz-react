@@ -1,6 +1,5 @@
 
-export default function Question() {
-  return (
-    <div>Question</div>
-  )
+export default function Question({ questions }) {
+    
+  return 
 }
