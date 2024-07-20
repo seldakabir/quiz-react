@@ -21,9 +21,10 @@ function reduce(state,action) {
         questions: action.payload,
         status: 'ready'
       }
-    case '':
+    case 'showQuestions':
       return {
         ...state,
+        status:'active'
         
       }
     case 'errorFetch':
@@ -59,7 +60,15 @@ const [{questions,status,index},dispatch]=useReducer(reduce,initialState)
         {status === 'ready' && <StartScreen 
           index={index}
           questions={questions}
+          dispatch={dispatch}
+
         />}
+       {status === 'active' &&
+          
+          <Question
+          questions={questions}
+          index={index}
+         />} 
       </Main>
     
     </div>
