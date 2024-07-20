@@ -57,7 +57,8 @@ const [{questions,status,index},dispatch]=useReducer(reduce,initialState)
         {status === 'loading' && <Loader />}
         {status === 'error' && <Error />}
         {status === 'ready' && <StartScreen 
-       
+          index={index}
+          questions={questions}
         />}
       </Main>
     
