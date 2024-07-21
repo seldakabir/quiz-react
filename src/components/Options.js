@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function Options({ questions, dispatch, answer ,point}) {
-    const hasAnswer = answer != null
+    const hasAnswer = answer !== null
 
   console.log(hasAnswer);
     return (<div className='options'>

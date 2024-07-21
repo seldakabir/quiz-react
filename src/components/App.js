@@ -7,6 +7,7 @@ import Main from './Main';
 import StartScreen from './StartScreen';
 import Question from './Question';
 import Error from './Error';
+import Progress from './Progress';
 const initialState = {
   questions: [],
   //loading,start,active,answered,finish,error
@@ -71,7 +72,10 @@ const [{questions,status,index,answer,point},dispatch]=useReducer(reduce,initial
       .then(data => dispatch({ type: 'dataRieved', payload: data }))
       .catch(err => dispatch({ type: 'errorFetch' }))
     
-  },[dispatch])
+  }, [dispatch])
+  // const maxPoint = questions.points(reduce((cur, next)=>{
+  //   return cur + next;
+  // },0))
   return (
     <div className="App">
       <Header />
@@ -85,14 +89,24 @@ const [{questions,status,index,answer,point},dispatch]=useReducer(reduce,initial
 
         />}
        {status === 'active' &&
-          
+          <>
+          <Progress 
+            questions={questions}
+            index={index}
+            point={point}
+           // maxPoint={maxPoint}
+           />
           <Question
           questions={questions[index]}
           index={index}
           dispatch={dispatch}
           answer={answer}
-          point={point}
-         />} 
+            point={point}
+            
+          />
+         
+          </>
+        } 
       </Main>
     
     </div>
