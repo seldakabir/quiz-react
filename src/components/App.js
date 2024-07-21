@@ -73,9 +73,9 @@ const [{questions,status,index,answer,point},dispatch]=useReducer(reduce,initial
       .catch(err => dispatch({ type: 'errorFetch' }))
     
   }, [dispatch])
-  // const maxPoint = questions.points(reduce((cur, next)=>{
-  //   return cur + next;
-  // },0))
+   const maxPoint = questions.reduce((cur, next)=>{
+    return cur + next.points;
+  },0)
   return (
     <div className="App">
       <Header />
@@ -94,7 +94,8 @@ const [{questions,status,index,answer,point},dispatch]=useReducer(reduce,initial
             questions={questions}
             index={index}
             point={point}
-           // maxPoint={maxPoint}
+            maxPoint={maxPoint}
+            answer={answer}
            />
           <Question
           questions={questions[index]}
