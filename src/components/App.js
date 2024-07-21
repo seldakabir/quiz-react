@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from 'react';
 import '../App.css';
+import '../index.css'
 import Header from './Header'
 import Loader from './Loader';
 import Main from './Main';
@@ -8,9 +9,11 @@ import Question from './Question';
 import Error from './Error';
 const initialState = {
   questions: [],
-  //loading,start,active,finish,error
+  //loading,start,active,answered,finish,error
   status: 'loading',
   index: 0,
+  answer: null,
+  
   
 }
 function reduce(state,action) {
@@ -24,8 +27,14 @@ function reduce(state,action) {
     case 'showQuestions':
       return {
         ...state,
-        status:'active'
+        status: 'active',
+    
         
+      }
+    case 'getAnswer':
+      return {
+        ...state,
+       answer:action.payload
       }
     case 'errorFetch':
       return {
@@ -43,7 +52,7 @@ function reduce(state,action) {
 
 
 function App() {
-const [{questions,status,index},dispatch]=useReducer(reduce,initialState)
+const [{questions,status,index,answer},dispatch]=useReducer(reduce,initialState)
   useEffect(function () {
     fetch('http://localhost:9000/questions')
       .then(res => res.json())
@@ -66,8 +75,9 @@ const [{questions,status,index},dispatch]=useReducer(reduce,initialState)
        {status === 'active' &&
           
           <Question
-          questions={questions}
-          index={index}
+          questions={questions[index]}
+          index={index} dispatch={dispatch}
+          answer={answer}
          />} 
       </Main>
     

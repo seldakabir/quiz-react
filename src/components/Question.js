@@ -1,9 +1,11 @@
-
-export default function Question({ questions,index }) {
+import Options from "./Options"
+export default function Question({ questions,dispatch,answer
+ }) {
     
-    return <div>
-        <p>{questions[index].question}</p>
-        {questions.map((question,index) =>
-            <button className="btn ">{question.options[index] }</button>)}
-  </div>
+    return <>
+        <h4>{questions.question}</h4>
+        <Options questions={questions} dispatch={dispatch } answer={answer} />
+        <button className="btn btn-ui">Next</button>
+    </>
+    
 }
