@@ -13,6 +13,8 @@ const initialState = {
   status: 'loading',
   index: 0,
   answer: null,
+  point:0
+  
   
   
 }
@@ -32,9 +34,19 @@ function reduce(state,action) {
         
       }
     case 'getAnswer':
+      const question=state.questions.at(state.index)
       return {
         ...state,
-       answer:action.payload
+        answer: action.payload,
+        point: question.correctOption === action.payload ?
+          state.point + question.points :
+          state.point
+      }
+     case 'nextQuestion':
+     return {
+       ...state,
+       index: state.index + 1,
+        answer:null
       }
     case 'errorFetch':
       return {
@@ -52,7 +64,7 @@ function reduce(state,action) {
 
 
 function App() {
-const [{questions,status,index,answer},dispatch]=useReducer(reduce,initialState)
+const [{questions,status,index,answer,point},dispatch]=useReducer(reduce,initialState)
   useEffect(function () {
     fetch('http://localhost:9000/questions')
       .then(res => res.json())
@@ -76,8 +88,10 @@ const [{questions,status,index,answer},dispatch]=useReducer(reduce,initialState)
           
           <Question
           questions={questions[index]}
-          index={index} dispatch={dispatch}
+          index={index}
+          dispatch={dispatch}
           answer={answer}
+          point={point}
          />} 
       </Main>
     
