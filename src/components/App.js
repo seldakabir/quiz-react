@@ -8,6 +8,7 @@ import StartScreen from './StartScreen';
 import Question from './Question';
 import Error from './Error';
 import Progress from './Progress';
+import FinishPage from './FinishPage'
 const initialState = {
   questions: [],
   //loading,start,active,answered,finish,error
@@ -48,6 +49,11 @@ function reduce(state,action) {
        ...state,
        index: state.index + 1,
         answer:null
+     }
+    case 'finishQuiz':
+      return {
+        ...state,
+        status:'finished'
       }
     case 'errorFetch':
       return {
@@ -75,7 +81,8 @@ const [{questions,status,index,answer,point},dispatch]=useReducer(reduce,initial
   }, [dispatch])
    const maxPoint = questions.reduce((cur, next)=>{
     return cur + next.points;
-  },0)
+   }, 0)
+  const maxLength=questions.length
   return (
     <div className="App">
       <Header />
@@ -103,11 +110,16 @@ const [{questions,status,index,answer,point},dispatch]=useReducer(reduce,initial
           dispatch={dispatch}
           answer={answer}
             point={point}
+            maxLength={maxLength}
             
           />
+          
          
           </>
         } 
+        {status === 'finished'
+          
+         && <FinishPage/>}
       </Main>
     
     </div>
