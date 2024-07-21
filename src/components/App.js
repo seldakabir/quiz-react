@@ -9,13 +9,16 @@ import Question from './Question';
 import Error from './Error';
 import Progress from './Progress';
 import FinishPage from './FinishPage'
+import Timer from './Timer';
 const initialState = {
   questions: [],
   //loading,start,active,answered,finish,error
   status: 'loading',
   index: 0,
   answer: null,
-  point:0
+  point: 0,
+  setTime:null,
+
   
   
   
@@ -29,9 +32,12 @@ function reduce(state,action) {
         status: 'ready'
       }
     case 'showQuestions':
+       const time=state.questions.length*30
+
       return {
         ...state,
         status: 'active',
+       setTime:time
     
         
       }
@@ -60,6 +66,14 @@ function reduce(state,action) {
         ...state,
         status: 'error'
       }
+    case 'changeTime':
+      return {
+        ...state,
+        setTime: state.setTime > 0 ? state.setTime - 1 :
+          state.setTime,
+        status:state.setTime===0 ?'finished':state.status
+      
+      }
     
     default:
       throw new Error('there is an error')
@@ -71,7 +85,7 @@ function reduce(state,action) {
 
 
 function App() {
-const [{questions,status,index,answer,point},dispatch]=useReducer(reduce,initialState)
+const [{questions,status,index,answer,point,setTime},dispatch]=useReducer(reduce,initialState)
   useEffect(function () {
     fetch('http://localhost:9000/questions')
       .then(res => res.json())
@@ -84,7 +98,7 @@ const [{questions,status,index,answer,point},dispatch]=useReducer(reduce,initial
    }, 0)
   const maxLength=questions.length
   return (
-    <div className="App">
+    <div className="app">
       <Header />
       <Main>
         {status === 'loading' && <Loader />}
@@ -111,9 +125,10 @@ const [{questions,status,index,answer,point},dispatch]=useReducer(reduce,initial
           answer={answer}
             point={point}
             maxLength={maxLength}
+           
             
           />
-          
+          <Timer  setTime={setTime} dispatch={dispatch}/>
          
           </>
         } 
