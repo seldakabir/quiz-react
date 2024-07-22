@@ -37,6 +37,7 @@ function reduce(state,action) {
       return {
         ...state,
         status: 'active',
+        
        setTime:time
     
         
@@ -74,7 +75,13 @@ function reduce(state,action) {
         status:state.setTime===0 ?'finished':state.status
       
       }
-    
+    case 'reset':
+      return {
+        ...initialState,
+        status: 'ready',
+        questions: state.questions
+        
+      }
     default:
       throw new Error('there is an error')
     
@@ -134,7 +141,11 @@ const [{questions,status,index,answer,point,setTime},dispatch]=useReducer(reduce
         } 
         {status === 'finished'
           
-         && <FinishPage/>}
+          && <FinishPage
+          point={point} 
+          dispatch={dispatch}
+          maxPoint={maxPoint}
+            />}
       </Main>
     
     </div>
