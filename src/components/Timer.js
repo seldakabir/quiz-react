@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 
-export default function Timer({ dispatch,setTime }) {
+export default function Timer({ dispatch, setTime }) {
+    const min = Math.floor(setTime / 60)
+    const sec=setTime%60
     useEffect(function () {
        
      setInterval(function () {
@@ -11,7 +13,7 @@ export default function Timer({ dispatch,setTime }) {
     },[dispatch])
   return (
       <div className='timer'>
-      {setTime}    
+          {min < 10 && '0'}{min}:{ sec<10&&'0'}{sec}    
     </div>
   )
 }
